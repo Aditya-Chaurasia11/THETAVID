@@ -1,16 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./gallery.css";
-import Card from "../component/Card";
 import CardHolder from "../component/CardHolder";
+import { useWeb3 } from "../api/contextapi";
 
 const Gallery = () => {
-  const [selectedDiv, setSelectedDiv] = useState(1);
-
-  const myArray = ["Item 1", "Item 2", "Item 3", "Item 4"];
+  const [selectedDiv, setSelectedDiv] = useState("All");
+  const [prodList, setProdList] = useState([]);
+  const { account, setAccount, provider, setProvider, contract, setContract } =
+    useWeb3();
 
   const handleDivClick = (divNumber) => {
     setSelectedDiv(divNumber);
   };
+
+  const parseDataToArray = (data) => {
+    const elements = data.split(",");
+    const nfts = [];
+
+    for (let i = 0; i < elements.length; i += 9) {
+      const nft = {
+        tokenId: elements[i],
+        owner: elements[i + 1],
+        sender: elements[i + 2],
+        price: elements[i + 3],
+        outForSale: elements[i + 4] === "true",
+        videoURL: elements[i + 5],
+        videoName: elements[i + 6],
+        videoDescription: elements[i + 7],
+        videoCategory: elements[i + 8],
+      };
+      if (elements[i + 4]==="true") nfts.push(nft);
+    }
+    return nfts;
+  };
+
+  const getAllNfts = async () => {
+    try {
+      const array = await contract?.nftsforsale();
+      console.log(array);
+      const arrayToString = array.toString();
+      // console.log(arrayToString);
+      const readableArray = parseDataToArray(arrayToString);
+      setProdList(readableArray);
+
+      console.log("Array of NFTs:", readableArray);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (contract) getAllNfts();
+  }, []);
+
   return (
     <div className="gallery_container">
       <div className="gallery_container_upper">
@@ -19,46 +61,40 @@ const Gallery = () => {
       </div>
       <div className="gallery_container_middle">
         <div
-          className={`${selectedDiv === 1 ? "tab_active" : ""}  gallery_tab`}
-          onClick={() => handleDivClick(1)}
+          className={`${
+            selectedDiv === "All" ? "tab_active" : ""
+          }  gallery_tab`}
+          onClick={() => handleDivClick("All")}
         >
           All
         </div>
         <div
-          className={`${selectedDiv === 2 ? "tab_active" : ""}  gallery_tab`}
-          onClick={() => handleDivClick(2)}
+          className={`${
+            selectedDiv === "sport" ? "tab_active" : ""
+          }  gallery_tab`}
+          onClick={() => handleDivClick("sport")}
         >
           Sport
         </div>
         <div
-          className={`${selectedDiv === 3 ? "tab_active" : ""}  gallery_tab`}
-          onClick={() => handleDivClick(3)}
+          className={`${
+            selectedDiv === "photography" ? "tab_active" : ""
+          }  gallery_tab`}
+          onClick={() => handleDivClick("photography")}
         >
           Photography
         </div>
         <div
-          className={`${selectedDiv === 4 ? "tab_active" : ""}  gallery_tab`}
-          onClick={() => handleDivClick(4)}
+          className={`${
+            selectedDiv === "pattern" ? "tab_active" : ""
+          }  gallery_tab`}
+          onClick={() => handleDivClick("pattern")}
         >
           Pattern
         </div>
       </div>
       <div className="gallery_container_lower">
-        {<CardHolder array={myArray} activeDiv={selectedDiv} />}
-        {/* {selectedDiv === 1 && (
-          <div>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-          </div>
-        )}
-        {selectedDiv === 2 && <div>Data for Div 2</div>}
-        {selectedDiv === 3 && <div>Data for Div 3</div>}
-        {selectedDiv === 4 && <div>Data for Div 4</div>} */}
+        <CardHolder array={prodList} activeDiv={selectedDiv} />
       </div>
     </div>
   );

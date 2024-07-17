@@ -1,26 +1,56 @@
 import React from "react";
-import cardimg from "../assets/Rectangle 23.png";
 import "./card.css";
+import { useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
+import { useWeb3 } from "../api/contextapi";
 
-const Card = () => {
+const Card = ({ data }) => {
+  const { account, setAccount, provider, setProvider, contract, setContract } =
+    useWeb3();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/video/${data?.tokenId}`);
+  };
+
   return (
     <div className="card_container">
-      <img src={cardimg}></img>
+      {data.videoURL ? (
+        <video width="100%" >
+          <source src={data?.videoURL} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        "No video available"
+      )}
       <div className="card_body">
         <div className="card_body_up">
           <p>
-            <span>0x6854...45c2</span>
+            <span>
+              {data.sender
+                ? `${data.sender.slice(0, 6)}...${data.sender.slice(
+                    data.sender.length - 4,
+                    data.sender.length
+                  )}`
+                : "NA"}
+            </span>
           </p>
           <p>Current Price</p>
         </div>
         <div className="card_body_bottom">
           <p>
-            <span> Yellow Painting </span>
+            <span>{data?.videoName}</span>
           </p>
-          <p>0.005 ETH</p>
+          <p>{ethers.formatEther(data?.price)} ETH</p>
         </div>
       </div>
-      <button className="card_gallery">Buy now</button>
+      <button className="card_gallery" onClick={handleClick}>
+        {account !== data.sender
+          ? "Buy now"
+          : data.outForSale === true
+          ? "Owned"
+          : "Resale"}
+      </button>
     </div>
   );
 };

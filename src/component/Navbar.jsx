@@ -4,6 +4,8 @@ import "./navbar.css";
 // import logo from "../assets/nftance.png";
 import { useEffect } from "react";
 import { ethers } from "ethers";
+import { useWeb3 } from "../api/contextapi";
+
 
 // import {
 //   ConnectKitProvider,
@@ -13,6 +15,8 @@ import { ethers } from "ethers";
 // import logo from "../images/logo.png";
 
 const Navbar = () => {
+  const { account, setAccount, provider, setProvider, contract, setContract } =
+    useWeb3();
   const [address, setaddress] = useState("");
 
   const loadAddress = async () => {
@@ -26,9 +30,9 @@ const Navbar = () => {
     console.log(add);
   };
 
-  useEffect(() => {
-    loadAddress();
-  }, []);
+  // useEffect(() => {
+  //   // loadAddress();
+  // }, []);
 
   return (
     <div className="gpt3__navbar">
@@ -47,19 +51,19 @@ const Navbar = () => {
         <button
           type="button"
           className="navbar_my_nft_button_add"
-          onClick={loadAddress}
+          // onClick={loadAddress}
         >
-          {address
-            ? `${address?.slice(0, 6)}...${address?.slice(
-                address.length - 4,
-                address.length
+          {account
+            ? `${account?.slice(0, 6)}...${account?.slice(
+                account.length - 4,
+                account.length
               )}`
             : "Connect wallet"}
         </button>
 
-        <Link to="/nft">
+        <Link to="/collection">
           <button type="button" className="navbar_my_nft_button">
-            Explore now{" "}
+            Collection{" "}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <path
                 fill="#ffffff"

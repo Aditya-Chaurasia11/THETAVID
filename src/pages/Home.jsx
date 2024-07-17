@@ -2,15 +2,23 @@
 import { useState, useEffect } from "react";
 import dashboard_img from "../assets/homepage_img.png";
 import dashboard_img2 from "../assets/homepage_img2.png";
-
 import "./home.css";
 import { useNavigate } from "react-router-dom";
+import { useWeb3 } from "../api/contextapi";
+import { ethers } from "ethers";
 
 function Home() {
+  const { account, setAccount, provider, setProvider, contract, setContract } =
+    useWeb3();
+
   const navigate = useNavigate();
 
   const navigatehandler = () => {
-    navigate("/rules");
+    navigate("/collection");
+  };
+
+  const navigatehandlerGallery = () => {
+    navigate("/gallery");
   };
 
   return (
@@ -24,7 +32,7 @@ function Home() {
             sequi!
           </p>
           <div className="home_container_button">
-            <button className="button_github">Explore now</button>
+            <button className="button_github" onClick={navigatehandlerGallery} >Explore now</button>
             <button className="button_claim" onClick={navigatehandler}>
               <span>Upload &#x21AA;</span>
             </button>

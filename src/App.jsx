@@ -7,21 +7,24 @@ import OwnedColl from "./pages/OwnedColl";
 import VideoPage from "./pages/VideoPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Web3provider } from "./api/contextapi";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/gallery" element={<Gallery />}></Route>
-          <Route path="/upload" element={<VideoUpload />}></Route>
-          <Route path="/collection" element={<OwnedColl />}></Route>
-          <Route path="/video" element={<VideoPage />}></Route>
-        </Routes>
-        <ToastContainer />
-      </BrowserRouter>
+      <Web3provider>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/gallery" element={<Gallery />}></Route>
+            <Route path="/upload" element={<VideoUpload />}></Route>
+            <Route path="/collection" element={<OwnedColl />}></Route>
+            <Route path="/video/:tid" element={<VideoPage />}></Route>
+          </Routes>
+          <ToastContainer />
+        </BrowserRouter>
+      </Web3provider>
     </>
   );
 }

@@ -19,9 +19,10 @@
   line-height: 2px;
 }
 
-.card_container img {
-  width: 340px;
-  height: 380px;
+.card_container video {
+  width: 330px;
+  object-fit: cover;
+  height: 340px;
   border-radius: 8px;
 }
 

@@ -7,18 +7,30 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import axios from "axios";
+import { useWeb3 } from "../api/contextapi";
+import { ethers } from "ethers";
 
 const VideoUpload = () => {
   const [videoFile, setVideoFile] = useState(null);
   const [videoURL, setVideoURL] = useState("");
   const [pinataURL, setPinataURL] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-
   const [videoName, setVideoName] = useState("");
   const [videoDesc, setVideoDesc] = useState("");
   const [videoPrice, setVideoPrice] = useState("");
-
   const [open, setOpen] = useState(false);
+  const [category, setCategory] = useState("");
+  const { account, setAccount, provider, setProvider, contract, setContract } =
+    useWeb3();
+
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,14 +55,57 @@ const VideoUpload = () => {
     setIsUploading(true);
     try {
       const response = await uploadToPinata(videoFile);
+
+      const priceInWei = ethers.parseEther(videoPrice);
+
       const data = {
         name: videoName,
         video: `https://gateway.pinata.cloud/ipfs/${response.IpfsHash}`,
         description: videoDesc,
-        price: videoPrice,
+        price: priceInWei.toString(),
+        cat: category ? category : "other",
       };
       setPinataURL(data.video);
       console.log(data);
+
+      if (response && contract) {
+        const NFTmetaData = {
+          description: videoDesc,
+          external_url: "https://openseacreatures.io/3",
+          image: `https://gateway.pinata.cloud/ipfs/${response.IpfsHash}`,
+          name: videoName,
+          price: priceInWei.toString(),
+          cat: category ? category : "other",
+          attributes: [
+            {
+              trait_type: "Base",
+              value: "Starfish",
+            },
+          ],
+        };
+
+        const resFileMetadata = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinJsonToIPFS",
+          data: NFTmetaData,
+          headers: {
+            pinata_api_key: `a6e50f62847b55509419`,
+            pinata_secret_api_key: `2f89858b273342a7994d2093faa0a56480bda602b56c63b55dd81593b3de1cd7`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const uri = `ipfs://${resFileMetadata.data.IpfsHash}`;
+        const temp = await contract?.createNFT(
+          uri,
+          priceInWei.toString(),
+          `https://gateway.pinata.cloud/ipfs/${response?.IpfsHash}`,
+          videoName,
+          videoDesc,
+          category
+        );
+        console.log("NFT created", temp);
+      }
     } catch (error) {
       console.error("Failed to upload video to Pinata:", error);
     } finally {
@@ -61,9 +116,11 @@ const VideoUpload = () => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
+      <button className="button_github" onClick={handleClickOpen}>
+        Sell video
+      </button>
+
+
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleFormSubmit}>
           <DialogTitle>Upload Video</DialogTitle>
@@ -93,6 +150,23 @@ const VideoUpload = () => {
               onChange={(e) => setVideoDesc(e.target.value)}
               variant="standard"
             />
+            <FormControl variant="standard" fullWidth margin="dense">
+              <InputLabel id="demo-simple-select-standard-label">
+                Category
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={category}
+                onChange={handleChange}
+                label="Category"
+              >
+                <MenuItem value={"sport"}>Sport</MenuItem>
+                <MenuItem value={"photography"}>Photography</MenuItem>
+                <MenuItem value={"pattern"}>Pattern</MenuItem>
+                <MenuItem value={"other"}>Other</MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               required
               margin="dense"
@@ -108,7 +182,11 @@ const VideoUpload = () => {
               type="file"
               accept="video/*"
               onChange={handleVideoSelect}
-              style={{ marginTop: '20px', marginBottom: '20px', display: 'block' }}
+              style={{
+                marginTop: "20px",
+                marginBottom: "20px",
+                display: "block",
+              }}
             />
             {videoURL && (
               <div>
@@ -123,30 +201,11 @@ const VideoUpload = () => {
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button type="submit" disabled={isUploading}>
-              {isUploading ? 'Uploading...' : 'Upload to Pinata'}
+              {isUploading ? "Uploading..." : "Upload"}
             </Button>
           </DialogActions>
         </form>
       </Dialog>
-      {/* {pinataURL && (
-        <div>
-          <h3>Pinata URL:</h3>
-          <a href={pinataURL} target="_blank" rel="noopener noreferrer">
-            {pinataURL}
-          </a>
-          <div>
-            <p>
-              <strong>Video Name:</strong> {videoName}
-            </p>
-            <p>
-              <strong>Description:</strong> {videoDesc}
-            </p>
-            <p>
-              <strong>Price:</strong> ${videoPrice}
-            </p>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
