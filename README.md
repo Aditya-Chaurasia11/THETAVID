@@ -54,32 +54,24 @@ Start the Game
   npm run dev
 ```
 
-## Game Rules
-- Players:
-   - The game is played between two players.
-   - There are 5 batsman per player.
-
-- Toss:
-   - A toss is conducted to decide which player will bat first.
-   - The winner of the toss automatically chooses to bat first.
-- Batting:
-   - The batting player virtually selects a number from 1 to 6 representing their 'batting score'.
-   - The bowling player also selects a number from 1 to 6 as the 'bowling score'.
-   - If the batting score and bowling score match, the batting player is considered 'out' and the innings ends.
-   - If the scores don’t match, the batting player's score is added to their total runs.
-- Bowling:
-   - The bowling player virtually selects a number from 1 to 6 as their 'bowling score'.
-   - The batting player also selects a number from 1 to 6 as their 'batting score'.
-   - If the bowling score and batting score match, the batting player is considered 'out' and their innings ends.
-   - If the scores don’t match, the bowling player's score is added to the batting player's total runs.
-- Winning:
-   - The player with the highest total runs at the end of the game wins.
- 
-## Game Flow
+## Project flow
 
   Check this for video demo [Click here](https://www.youtube.com/watch?v=7o2wKpB63Y0)
 
- First every user will create or join game
+- Video NFT Creation
+    - Upload Video & Metadata: Users upload their video to IPFS and provide metadata like title and description.
+    - Mint NFT: The createNFT function in VideoNFT.sol mints the video and metadata as an NFT on the blockchain.
+
+- Listing NFT for Sale
+    - Set Sale Price: Users set the price for their NFT.
+    - List on Marketplace: The Mapitem function in Marketplace.sol lists the NFT and marks it for sale.
+- Marketplace Browsing
+    - Browse NFTs: Users explore available NFTs using filter options.
+    - Preview Video: Users watch a short preview of the video before purchasing.
+- Purchasing NFT
+    - Select NFT: Choose the NFT to buy.
+    - Complete Purchase: Process the transaction to transfer ownership.
+
 
 ![Gameplay](https://i.ibb.co/XFVt4Q8/one.jpg)
 
