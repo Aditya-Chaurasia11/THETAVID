@@ -41,7 +41,7 @@ const Card = ({ data }) => {
           <p>
             <span>{data?.videoName}</span>
           </p>
-          <p>{ethers.formatEther(data?.price)} ETH</p>
+          <p>{ethers.formatEther(data?.price)} TFUEL</p>
         </div>
       </div>
       <button className="card_gallery" onClick={handleClick}>

@@ -3,12 +3,18 @@ import "./ownedColl.css";
 import CardHolder from "../component/CardHolder";
 import VideoUpload from "../component/VideoUpload";
 import { useWeb3 } from "../api/contextapi";
+import { useNavigate } from "react-router-dom";
 
 const OwnedColl = () => {
-
   const [prodList, setProdList] = useState([]);
   const { account, setAccount, provider, setProvider, contract, setContract } =
     useWeb3();
+
+  const navigate = useNavigate();
+
+  const handleGallerynavigation = () => {
+    navigate("/gallery");
+  };
 
   const parseDataToArray = (data) => {
     const elements = data.split(",");
@@ -33,14 +39,12 @@ const OwnedColl = () => {
 
   const getAllNfts = async () => {
     try {
-      const array = await contract?.allmynftsnotforsale();
+      const array = await contract?.allMyNFTsNotForSale();
       const arrayToString = array.toString();
       if (arrayToString) {
         const readableArray = parseDataToArray(arrayToString);
         setProdList(readableArray);
-        console.log("Array of NFTs:", readableArray);
-      } else {
-        console.log("no data");
+        // console.log("Array of NFTs:", readableArray);
       }
     } catch (error) {
       console.log(error);
@@ -49,7 +53,7 @@ const OwnedColl = () => {
 
   useEffect(() => {
     if (contract) getAllNfts();
-  }, []);
+  }, [contract]);
 
   return (
     <div className="ownedColl_container">
@@ -58,7 +62,22 @@ const OwnedColl = () => {
         <VideoUpload />
       </div>
       <div className="ownedColl_container_lower">
-        <CardHolder array={prodList} activeDiv={"Collection"} />
+        {prodList.length > 0 ? (
+          <CardHolder array={prodList} activeDiv={"Collection"} />
+        ) : (
+          <div className="ownedColl_container_lower_card">
+            <h3>
+              No videos purchased yet. Visit the gallery to explore and make
+              your purchase.
+            </h3>
+            <button
+              className="ownedColl_container_lower_card_button"
+              onClick={handleGallerynavigation}
+            >
+              Go to gallery
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

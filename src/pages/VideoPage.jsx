@@ -15,7 +15,6 @@ const VideoPage = () => {
   const [prodList, setProdList] = useState({});
   const [url, setUrl] = useState("");
   const [videoDuration, setVideoDuration] = useState(0);
-  const [buyPrice, setBuyPrice] = useState("");
 
   const parseDataToArray = (data) => {
     const elements = data.split(",");
@@ -49,26 +48,43 @@ const VideoPage = () => {
   const stopsaleHandle = async () => {
     try {
       if (account === prodList.sender) {
-        const stopSale = await contract.stopsale(tid);
-        console.log(stopSale);
+        const stopSale = await contract?.stopSale(tid);
+        await stopSale.wait();
+        toast.success(`Video successfully removed from sale`, {
+          position: "top-right",
+          theme: "dark",
+        });
+        // window.location.reload();
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const handlePriceChange = async () => {};
 
   const handleBuyVideo = async () => {
     try {
       if (account !== prodList.sender) {
-        const buyVideo = await contract.buynft(tid, {
+        const buyVideo = await contract.buyNFT(tid, {
           value: prodList.price,
         });
-        console.log(buyVideo);
+        await buyVideo.wait();
+        toast.success(`Video successfully purchased`, {
+          position: "top-right",
+          theme: "dark",
+        });
+        window.location.reload();
+        // console.log(buyVideo);
       } else if (prodList.outForSale === false) {
         // console.log("asdadad");
         const resaleVideo = await contract.resale(tid);
-        console.log(resaleVideo);
+        await resaleVideo.wait();
+        toast.success(`Video successfully uploaded for resale`, {
+          position: "top-right",
+          theme: "dark",
+        });
+        // window.location.reload();
+
+        // console.log(resaleVideo);
       }
     } catch (error) {
       console.log(error);
@@ -79,7 +95,7 @@ const VideoPage = () => {
     if (contract && tid) {
       getVideoDetail();
     }
-  }, [tid]);
+  }, [contract]);
 
   useEffect(() => {
     try {
@@ -168,7 +184,7 @@ const VideoPage = () => {
           <div className="videopage_right_lower_price">
             <p>Current price</p>
             <h2>
-              {prodList.price ? ethers.formatEther(prodList.price) : "0"} ETH
+              {prodList.price ? ethers.formatEther(prodList.price) : "0"} TFUEL
             </h2>
           </div>
           <div>

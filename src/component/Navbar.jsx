@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { ethers } from "ethers";
 import { useWeb3 } from "../api/contextapi";
 
-
 // import {
 //   ConnectKitProvider,
 //   ConnectKitButton,
@@ -17,22 +16,6 @@ import { useWeb3 } from "../api/contextapi";
 const Navbar = () => {
   const { account, setAccount, provider, setProvider, contract, setContract } =
     useWeb3();
-  const [address, setaddress] = useState("");
-
-  const loadAddress = async () => {
-    const provider = new ethers.BrowserProvider(window.ethereum);
-
-    const log = await provider.send("eth_requestAccounts", []);
-    console.log(log);
-    const signer = await provider.getSigner();
-    const add = await signer.getAddress();
-    setaddress(add);
-    console.log(add);
-  };
-
-  // useEffect(() => {
-  //   // loadAddress();
-  // }, []);
 
   return (
     <div className="gpt3__navbar">
@@ -40,9 +23,7 @@ const Navbar = () => {
         <div className="gpt3__navbar-links_logo">
           <Link to="/">
             {/* <img src={logo}></img> */}
-            <h2>
-              ERC <span>7551</span>
-            </h2>
+            <h2>THETAVID</h2>
           </Link>
         </div>
       </div>

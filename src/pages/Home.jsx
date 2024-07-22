@@ -25,11 +25,10 @@ function Home() {
     <div className="home_container">
       <div className="home_upper">
         <div className="home_container_left">
-          <h1>Create, Sell & Collect Your Own Creative NFT</h1>
+          <h1>Craft, Trade & Collect Creative Video NFTs
+          </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-            dolore ducimus maxime veniam explicabo ea quidem, et nihil deserunt
-            sequi!
+          Buy, sell, and explore exceptional video NFTs on Theta, the advanced platform offering secure and transparent ownership of digital video content.
           </p>
           <div className="home_container_button">
             <button className="button_github" onClick={navigatehandlerGallery} >Explore now</button>

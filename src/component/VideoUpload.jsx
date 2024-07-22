@@ -14,6 +14,8 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 import { useWeb3 } from "../api/contextapi";
 import { ethers } from "ethers";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VideoUpload = () => {
   const [videoFile, setVideoFile] = useState(null);
@@ -96,6 +98,7 @@ const VideoUpload = () => {
         });
 
         const uri = `ipfs://${resFileMetadata.data.IpfsHash}`;
+        console.log(uri);
         const temp = await contract?.createNFT(
           uri,
           priceInWei.toString(),
@@ -105,6 +108,11 @@ const VideoUpload = () => {
           category
         );
         console.log("NFT created", temp);
+        await temp.wait();
+        toast.success(`Video successfully uploaded`, {
+          position: "top-right",
+          theme: "dark",
+        });
       }
     } catch (error) {
       console.error("Failed to upload video to Pinata:", error);
@@ -116,10 +124,11 @@ const VideoUpload = () => {
 
   return (
     <div>
+      <ToastContainer />
+
       <button className="button_github" onClick={handleClickOpen}>
         Sell video
       </button>
-
 
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleFormSubmit}>
@@ -163,7 +172,7 @@ const VideoUpload = () => {
               >
                 <MenuItem value={"sport"}>Sport</MenuItem>
                 <MenuItem value={"photography"}>Photography</MenuItem>
-                <MenuItem value={"pattern"}>Pattern</MenuItem>
+                <MenuItem value={"music"}>Music</MenuItem>
                 <MenuItem value={"other"}>Other</MenuItem>
               </Select>
             </FormControl>

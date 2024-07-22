@@ -29,34 +29,35 @@ const Gallery = () => {
         videoDescription: elements[i + 7],
         videoCategory: elements[i + 8],
       };
-      if (elements[i + 4]==="true") nfts.push(nft);
+      if (elements[i + 4] === "true") nfts.push(nft);
     }
     return nfts;
   };
 
   const getAllNfts = async () => {
     try {
-      const array = await contract?.nftsforsale();
-      console.log(array);
+      const array = await contract?.nftsForSale();
+      // console.log(array);
+      // console.log(array);
       const arrayToString = array.toString();
       // console.log(arrayToString);
       const readableArray = parseDataToArray(arrayToString);
       setProdList(readableArray);
 
-      console.log("Array of NFTs:", readableArray);
+      // console.log("Array of NFTs:", readableArray);
     } catch (error) {
-      console.log(error);
+      console.log("error in gallery", error);
     }
   };
 
   useEffect(() => {
     if (contract) getAllNfts();
-  }, []);
+  }, [contract]);
 
   return (
     <div className="gallery_container">
       <div className="gallery_container_upper">
-        <h2>Collections</h2>
+        <h2>Gallery</h2>
         <hr className="hr"></hr>
       </div>
       <div className="gallery_container_middle">
@@ -86,11 +87,11 @@ const Gallery = () => {
         </div>
         <div
           className={`${
-            selectedDiv === "pattern" ? "tab_active" : ""
+            selectedDiv === "music" ? "tab_active" : ""
           }  gallery_tab`}
-          onClick={() => handleDivClick("pattern")}
+          onClick={() => handleDivClick("music")}
         >
-          Pattern
+          Music
         </div>
       </div>
       <div className="gallery_container_lower">
