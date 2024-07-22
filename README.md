@@ -18,7 +18,6 @@ This project is a decentralized video marketplace built on the Theta blockchain.
 - Minting: Users can mint new video NFTs by uploading video files and metadata.
 - Trading: Users can list their video NFTs for sale, purchase, or trade.
 - Ownership Transfer: Automatic transfer of ownership upon transaction completion.
-- Scalability: The game can accommodate a large number of players and transactions.
 - Preview: Allow users to view a preview of video NFTs for a few seconds before purchasing.
 
 ## Smart Contracts:
@@ -30,7 +29,7 @@ This project is a decentralized video marketplace built on the Theta blockchain.
 Clone the project
 
 ```bash
-  https://github.com/Aditya-Chaurasia11/THETAVID.git
+  git clone https://github.com/Aditya-Chaurasia11/THETAVID.git
 ```
 
 Go to the project directory
