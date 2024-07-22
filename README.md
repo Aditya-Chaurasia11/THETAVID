@@ -52,7 +52,7 @@ Start the Game
 
 ## Project flow
 
-  Check this for video demo [Click here](https://www.youtube.com/watch?v=7o2wKpB63Y0)
+  Check this for video demo [Click here](https://youtu.be/g1x9t9aYz7w?si=orSo_TAYX3gDNyL4)
 
 - Video NFT Creation
     - Upload Video & Metadata: Users upload their video to IPFS and provide metadata like title and description.
