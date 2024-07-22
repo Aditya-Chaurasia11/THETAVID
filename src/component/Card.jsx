@@ -39,7 +39,7 @@ const Card = ({ data }) => {
         </div>
         <div className="card_body_bottom">
           <p>
-            <span>{data?.videoName}</span>
+            <span>{data?.videoName.slice(0,18)}</span>
           </p>
           <p>{ethers.formatEther(data?.price)} TFUEL</p>
         </div>

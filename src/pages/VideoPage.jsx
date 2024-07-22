@@ -72,7 +72,7 @@ const VideoPage = () => {
           position: "top-right",
           theme: "dark",
         });
-        window.location.reload();
+        // window.location.reload();
         // console.log(buyVideo);
       } else if (prodList.outForSale === false) {
         // console.log("asdadad");
@@ -156,7 +156,7 @@ const VideoPage = () => {
       <div className="videopage_right">
         <div className="videopage_right_upper">
           <div className="videopage_right_upper_title">
-            <h2>{prodList.videoName}</h2>
+            <h2>{prodList?.videoName?.slice(0,20)} </h2>
             <button
               onClick={stopsaleHandle}
               disabled={
