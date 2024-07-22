@@ -19,10 +19,10 @@ export const Web3provider = ({ children }) => {
           //   window.location.reload();
           // });
 
-          window.ethereum.on("accountsChanged", () => {
-            // Accounts have changed, so reload the page
-            window.location.reload();
-          });
+          // window.ethereum.on("accountsChanged", () => {
+          //   // Accounts have changed, so reload the page
+          //   window.location.reload();
+          // });
 
           await provider.send("eth_requestAccounts");
           const signer = await provider.getSigner();
