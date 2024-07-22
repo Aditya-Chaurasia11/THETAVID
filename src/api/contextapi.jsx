@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import React, { createContext, useState, useContext, useEffect } from "react";
-import TwitterContract from "../abi";
+import thetaVidContract from "../contract/abi";
 
 const Web3Context = createContext();
 
@@ -28,13 +28,13 @@ export const Web3provider = ({ children }) => {
           const signer = await provider.getSigner();
           const address = await signer.getAddress();
 
-          // Check if the current network is Sepolia (chainId: 0xaaa)
+          // Check if the current network is theta (chainId: 0x16d)
           const network = await provider.getNetwork();
           if (network.chainId !== 0x16d) {
             try {
               await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{ chainId: "0x16d" }], // Sepolia chainId
+                params: [{ chainId: "0x16d" }], // theta chainId
               });
             } catch (switchError) {
               if (switchError.code === 4902) {
@@ -49,11 +49,10 @@ export const Web3provider = ({ children }) => {
 
           setAccount(address);
           let contractAddress = "0x5e361260d2060cc1ed1b947c936a354cc87904a4";
-          // let contractAddress = "0xe6FFB03A0d364302b48d06c79547d4a2Bde4735A";
 
           const contract = new ethers.Contract(
             contractAddress,
-            TwitterContract,
+            thetaVidContract,
             signer
           );
 
@@ -67,7 +66,7 @@ export const Web3provider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [ account]);
+  }, [account]);
 
   return (
     <Web3Context.Provider
