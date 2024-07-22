@@ -11,9 +11,6 @@ This project is a decentralized video marketplace built on the Theta blockchain.
 - Solidity
 - IPFS (Pinata)
 - openzeppelin
-### Development Tools
-- Remix IDE
-- Metamask
 
 
 ## Features of THETAVID:
@@ -62,46 +59,29 @@ Start the Game
     - Upload Video & Metadata: Users upload their video to IPFS and provide metadata like title and description.
     - Mint NFT: The createNFT function in VideoNFT.sol mints the video and metadata as an NFT on the blockchain.
 
+![Gameplay](https://i.postimg.cc/ZK75BSJK/img1.jpg)
+
+
 - Listing NFT for Sale
     - Set Sale Price: Users set the price for their NFT.
     - List on Marketplace: The Mapitem function in Marketplace.sol lists the NFT and marks it for sale.
+
+![Gameplay](https://i.postimg.cc/Gh5b3xj4/img2.jpg)
+
+
 - Marketplace Browsing
     - Browse NFTs: Users explore available NFTs using filter options.
     - Preview Video: Users watch a short preview of the video before purchasing.
+
+ ![Gameplay](https://i.postimg.cc/Wb32PH0R/img3.jpg)
+
+
+
 - Purchasing NFT
     - Select NFT: Choose the NFT to buy.
     - Complete Purchase: Process the transaction to transfer ownership.
-
-
-![Gameplay](https://i.ibb.co/XFVt4Q8/one.jpg)
-
- Once user create a match they will be toss the coin
  
-![Gameplay](https://i.ibb.co/m80tJM7/two.jpg)
-
- After toss user will waiting for other player to join
- 
-![Gameplay](https://i.ibb.co/tzmtkC3/three.jpg)
-
-  You can you join matches through join page
-
-![Gameplay](https://i.ibb.co/4J2KSfF/nine.jpg)
-  
-
-
-  Once a player joined battle the battle will begin
-  
-![Gameplay](https://i.ibb.co/J3pTnsh/five.jpg)
-
-  You can see each player individual score
-  
-  ![Gameplay](https://i.ibb.co/FKbKy7g/six.jpg)
-  ![Gameplay](https://i.ibb.co/Gn6Th1r/seven.jpg)
-  
-  
-  After ending match we get the winner
-  
-![Gameplay](https://i.ibb.co/L95XpC3/eight.jpg)
+![Gameplay](https://i.postimg.cc/Xq24CfSD/img4.jpg)
 
 
   
