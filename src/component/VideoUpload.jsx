@@ -68,7 +68,7 @@ const VideoUpload = () => {
         cat: category ? category : "other",
       };
       setPinataURL(data.video);
-      console.log(data);
+      // console.log(data);
 
       if (response && contract) {
         const NFTmetaData = {
@@ -98,7 +98,7 @@ const VideoUpload = () => {
         });
 
         const uri = `ipfs://${resFileMetadata.data.IpfsHash}`;
-        console.log(uri);
+        // console.log(uri);
         const temp = await contract?.createNFT(
           uri,
           priceInWei.toString(),
@@ -107,7 +107,7 @@ const VideoUpload = () => {
           videoDesc,
           category
         );
-        console.log("NFT created", temp);
+        // console.log("NFT created", temp);
         await temp.wait();
         toast.success(`Video successfully uploaded`, {
           position: "top-right",

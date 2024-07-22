@@ -66,7 +66,7 @@ export const Web3provider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [account]);
+  }, [account,contract]);
 
   return (
     <Web3Context.Provider
